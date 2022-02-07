@@ -2,6 +2,6 @@
 
 echo '<br><br>';
 echo 'Hero Vie : '.$hero->life.'<br>';
-echo 'Hero reçoit bonus de vie<br>';
-$hero->bonusLife();
+echo "Minion attaque le Héro<br>";
+$hero->damage($minion->damage);
 echo 'Hero Vie : '.$hero->life;
