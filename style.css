@@ -1,0 +1,57 @@
+.ligneGame {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    Border: solid black 10px;
+    max-width: fit-content;
+    border-radius: 15px;
+}
+
+.colonneHero {
+    display:flex;
+    flex-direction: column;
+    Border: solid green 10px;
+    padding: 20px 20px 20px 20px;
+    border-radius: 15px; 
+}
+
+.colonneGame {
+    display: flex;
+    flex-direction: column;
+    Border: solid yellow 10px;
+    padding: 20px 20px 20px 20px;
+    border-radius: 15px;
+}
+
+.colonneChef {
+    display: flex;
+    flex-direction: column;
+    Border: solid red 10px;
+    padding: 20px 20px 20px 20px;
+    border-radius: 15px;
+}
+
+#customMinion {
+    width: 300px;
+}
+
+#customHero {
+    width: 300px;
+}
+
+#customBtn {
+    display: flex;
+    justify-content: center;    
+}
+
+.classBtn {
+    color: white;
+    background-color: purple;
+    padding: 20px 20px 20px 20px;
+    border: solid black 10px;
+    border-radius: 15px;
+}
+
+p {
+    font-size: 2rem;
+}
