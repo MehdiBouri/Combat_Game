@@ -1,46 +1,91 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
-    <title>CombatGame</title>
-</head>
-<body>
-    <main class="ligneGame">
-        <section class="colonneHero">
-            <div>
-                <img src="hero.jpeg" alt="photo du héro" id="customHero">
-            </div>
-            <div>
-               <p>Vos points de vie : </p>
-               <p>Vos points d'armure : </p>
-               <p>Vos points d'attaque : 15</p> 
-            </div>
-            <div>
-                <p>Vous avez obtenu une potion de soin : </p>
-                <p>Vous avez obtenu de l'armure : </p>
-            </div>
-        </section>
-        <section class="colonneGame">
-        <div id="customBtn">
-            <button class="classBtn" type="button">Tour : </button>
-        </div>
-        <div>
-            <p>Vous avez gagné</p>
-        </div>    
-        </section>
-        <section class="colonneChef">
-        <div>
-        <img src="minion.jpeg" alt="photo du minion" id="customMinion"> 
-        </div>
-            <div>
-                <p>Points de vie du minion : </p>
-                <p>Points d'attaque du minion : 30</p>
-            </div>
-        </section>
-    </main>
-</body>
-</html>
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+require 'vendor/autoload.php';
 
+
+use App\Hero;
+use App\Minion;
+use App\LieutenantMinion;
+use App\ChefMinion;
+
+
+session_start();
+
+if (isset($_SESSION['end'])) {
+    session_destroy();
+}
+
+
+$hero = new Hero;
+$minion = new ChefMinion;
+
+
+// Initialisation des variables de Session
+if (!isset($_SESSION['tour'])) {
+    $_SESSION['tour'] = 0;
+}
+else {
+    $_SESSION['tour']++;
+}
+
+if (!isset($_SESSION['heroLife']) || !$_SESSION['heroLife']) {
+    $_SESSION['heroLife'] = $hero->life;
+}
+
+if (!isset($_SESSION['minionLife']) || !$_SESSION['minionLife']) {
+    $_SESSION['minionLife'] = $minion->life;
+}
+
+
+// Chargement des variables de Session
+$hero->life = $_SESSION['heroLife'];
+$minion->life = $_SESSION['minionLife'];
+$tour = $_SESSION['tour'];
+
+
+
+
+// Bonus
+$bonusLife = false;
+$bonusArmor = false;
+
+if (rand(1, 3) == 1) {
+    $hero->bonusArmor();
+    $bonusArmor = true;
+}
+
+if (rand(1, 5) == 1) {
+    $hero->bonusLife();
+    $bonusLife = true;
+}
+
+
+// Attaques
+$hero->damage($minion->damage);
+$minion->damage($hero->damage);
+
+
+// Victoire ou défaite
+$victory = 0;
+
+if ($hero->life <= 0) {
+    $hero->life = 0;
+    $victory = 1;
+    $_SESSION['end'] = 1;
+}
+elseif ($minion->life <= 0) {
+    $minion->life = 0;
+    $victory = 2;
+    $_SESSION['end'] = 1;
+}
+
+
+// Sauvegarde des variables de la Session
+$_SESSION['heroLife'] = $hero->life;
+$_SESSION['minionLife'] = $minion->life;
+
+
+
+require 'CombatGameView.php';

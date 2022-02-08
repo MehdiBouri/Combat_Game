@@ -5,17 +5,18 @@
     Border: solid black 10px;
     max-width: fit-content;
     border-radius: 15px;
+    min-height: 500px;;
 }
 
 .colonneHero {
-    display:flex;
-    flex-direction: column;
-    Border: solid green 10px;
+    width:350px;
+    border: solid green 10px;
     padding: 20px 20px 20px 20px;
     border-radius: 15px; 
 }
 
 .colonneGame {
+    width:250px;
     display: flex;
     flex-direction: column;
     Border: solid yellow 10px;
@@ -47,11 +48,15 @@
 .classBtn {
     color: white;
     background-color: purple;
+    text-decoration:none;
+    font-size:1.6rem;
+    font-weight:bold;
     padding: 20px 20px 20px 20px;
     border: solid black 10px;
     border-radius: 15px;
 }
 
 p {
-    font-size: 2rem;
+    font-size: 1.6rem;
+    margin:0;
 }
