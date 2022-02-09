@@ -15,6 +15,7 @@ session_start();
 
 if (isset($_SESSION['end'])) {
     session_destroy();
+    session_start();
 }
 
 
@@ -30,11 +31,11 @@ else {
     $_SESSION['tour']++;
 }
 
-if (!isset($_SESSION['heroLife']) || !$_SESSION['heroLife']) {
+if (!isset($_SESSION['heroLife'])) {
     $_SESSION['heroLife'] = $hero->life;
 }
 
-if (!isset($_SESSION['minionLife']) || !$_SESSION['minionLife']) {
+if (!isset($_SESSION['minionLife'])) {
     $_SESSION['minionLife'] = $minion->life;
 }
 
@@ -43,15 +44,13 @@ if (!isset($_SESSION['minionLife']) || !$_SESSION['minionLife']) {
 $hero->life = $_SESSION['heroLife'];
 $minion->life = $_SESSION['minionLife'];
 $tour = $_SESSION['tour'];
-
+$bonusLife = false;
+$bonusArmor = false;
 
 // Début de la partie
 if ($tour > 0)
 {
     // Bonus
-    $bonusLife = false;
-    $bonusArmor = false;
-
     if (rand(1, 3) == 1) {
         $hero->bonusArmor();
         $bonusArmor = true;
@@ -66,27 +65,26 @@ if ($tour > 0)
     // Attaques
     $hero->damage($minion->damage);
     $minion->damage($hero->damage);
-
-
-    // Victoire ou défaite
-    $victory = 0;
-
-    if ($hero->life <= 0) {
-        $hero->life = 0;
-        $victory = 1;
-        $_SESSION['end'] = 1;
-    }
-    elseif ($minion->life <= 0) {
-        $minion->life = 0;
-        $victory = 2;
-        $_SESSION['end'] = 1;
-    }
-
-
-    // Sauvegarde des variables de la Session
-    $_SESSION['heroLife'] = $hero->life;
-    $_SESSION['minionLife'] = $minion->life;
 }
+
+// Victoire ou défaite
+$victory = 0;
+
+if ($hero->life <= 0) {
+    $hero->life = 0;
+    $victory = 1;
+    $_SESSION['end'] = 1;
+}
+elseif ($minion->life <= 0) {
+    $minion->life = 0;
+    $victory = 2;
+    $_SESSION['end'] = 1;
+}
+
+
+// Sauvegarde des variables de la Session
+$_SESSION['heroLife'] = $hero->life;
+$_SESSION['minionLife'] = $minion->life;
 
 
 require 'CombatGameView.php';
